@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scanner de Números</title>
+    <style>
+        #video {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Scanner de Números</h1>
+    <video id="video" autoplay></video>
+    <button id="scanBtn">Escanear Número</button>
+    <div id="result"></div>
+
+    <script>
+        const video = document.getElementById('video');
+        const scanBtn = document.getElementById('scanBtn');
+        const resultDiv = document.getElementById('result');
+
+        // Verifica se o navegador suporta a API de captura de mídia
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(function(err) {
+                    console.error('Erro ao acessar a câmera:', err);
+                });
+        }
+
+        // Adiciona um ouvinte de evento ao botão de digitalização
+        scanBtn.addEventListener('click', function() {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+
+            // Desenha o frame do vídeo no canvas
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Lê o código de barras do canvas
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            // Aqui você precisará de uma biblioteca de processamento de imagem para analisar os números na imagem e extrair o número
+            // Por exemplo, você pode usar o OpenCV.js para processamento de imagem
+
+            // Exibe o número digitalizado
+            resultDiv.innerText = "Número escaneado: [Número Aqui]";
+        });
+    </script>
+</body>
+</html>

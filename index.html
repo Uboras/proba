@@ -54,5 +54,30 @@
             resultDiv.innerText = "Número escaneado: [Número Aqui]";
         });
     </script>
+    
+<body>
+    <button onclick="requestNotificacion()">Tocame
+    </button>
+    <div id="resultado"></div>
+    <script>
+        function requestNotificacion() {
+            const res = document.getElementById("resultado")
+            Notification.requestPermission().then(Permission => {
+                console.log(Permission);
+
+                if (Permission === "granted") {
+                    res.innerHTML = Permission;
+                    Console.log("llego"); new Notification("Hola")
+                }
+                else {
+                    res.innerHTML = Permission;
+                     console.log("asdasdas") };
+
+            })
+
+        }
+    </script>
+</body>
+
 </body>
 </html>

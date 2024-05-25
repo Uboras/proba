@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scanner de Números</title>
@@ -17,7 +19,8 @@
     <video id="video" autoplay></video>
     <button id="scanBtn">Escanear Número</button>
     <div id="result"></div>
-
+<div id="interactive" class="viewport"></div>
+    
     <script>
         const video = document.getElementById('video');
         const scanBtn = document.getElementById('scanBtn');
@@ -53,6 +56,34 @@
             // Exibe o número digitalizado
             resultDiv.innerText = "Número escaneado: [Número Aqui]";
         });
+document.addEventListener('DOMContentLoaded', function() {
+    Quagga.init({
+        inputStream: {
+            name: "Live",
+            type: "LiveStream",
+            target: document.querySelector('#interactive')    // Este es el elemento donde se mostrará el video de la cámara
+        },
+        decoder: {
+            readers: ["code_128_reader"]  // Puedes agregar otros lectores de códigos de barras aquí si es necesario
+        }
+    }, function(err) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        console.log("Initialization finished. Ready to start");
+        Quagga.start();
+    });
+
+    Quagga.onDetected(function(data) {
+        var code = data.codeResult.code;
+        console.log("Código de barras detectado: ", code);
+        alert("Código de barras detectado: " + code);
+    });
+});
+            
+
+        
     </script>
     
 <body>
